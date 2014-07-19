@@ -20,6 +20,9 @@ public class HomeActivity extends BaseActivity implements ActionBar.TabListener,
 {
     private static final String TAG = makeLogTag(HomeActivity.class);
 
+    public static final String EXTRA_DEFAULT_TAB
+            = "com.google.android.apps.iosched.extra.DEFAULT_TAB";
+    public static final String TAB_EXPLORE = "explore";
 
     private ViewPager mViewPager;
     private Menu mOptionsMenu;
@@ -55,9 +58,13 @@ public class HomeActivity extends BaseActivity implements ActionBar.TabListener,
             actionBar.addTab(actionBar.newTab().setText(R.string.title_explore).setTabListener(this));
             actionBar.addTab(actionBar.newTab().setText(R.string.title_stream).setTabListener(this));
 
+            if (getIntent() != null
+                    && TAB_EXPLORE.equals(getIntent().getStringExtra(EXTRA_DEFAULT_TAB))
+                    && savedInstanceState == null) {
+                mViewPager.setCurrentItem(1);
+            }
 
         }
-
 
 
     }
@@ -85,7 +92,7 @@ public class HomeActivity extends BaseActivity implements ActionBar.TabListener,
 
     @Override
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+        mViewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
@@ -122,18 +129,27 @@ public class HomeActivity extends BaseActivity implements ActionBar.TabListener,
 
         @Override
         public Fragment getItem(int position) {
-            switch(position)
-            {
+            switch (position) {
                 case 0:
                     return new ScheduleFragment();
-            }
 
+                case 1:
+//                    return new ExploreFragment();
+                    return new ScheduleFragment();
+
+
+                case 2:
+//                    return (mSocialStreamFragment = new SocialStreamFragment());
+                    return new ScheduleFragment();
+
+            }
             return null;
         }
 
         @Override
         public int getCount() {
-            return 0;
+            return 3;
         }
+
     }
 }

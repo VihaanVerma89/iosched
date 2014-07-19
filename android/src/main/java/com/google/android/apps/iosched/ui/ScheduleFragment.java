@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.BaseColumns;
@@ -22,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.apps.iosched.R;
@@ -43,20 +45,55 @@ implements LoaderManager.LoaderCallbacks<Cursor>, ActionMode.Callback
     private static final String TAG = makeLogTag(ScheduleFragment.class);
     private static final String STATE_ACTION_MODE = "actionMode";
 
-    private boolean mActionModeStarted = false;
+
+
+
+
+
+    private SimpleSectionedListAdapter mAdapter;
+    private MySchduleAdapter mScheduleAdapter;
     private SparseArray<String> mSelectedItemData;
     private View mLongClickedView;
     private ActionMode mActionMode;
+    private boolean mScrollToNow;
+
+
+
     private StringBuilder mBuffer = new StringBuilder();
+    private boolean mActionModeStarted = false;
 
     private Formatter mFormatter = new Formatter(mBuffer, Locale.getDefault());
 
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        mScheduleAdapter = new MySchduleAdapter(getActivity());
+        mAdapter = new SimpleSectionedListAdapter(getActivity(), R.layout.list_item_schedule_header, mScheduleAdapter);
 
+        setListAdapter(mAdapter);
 
+        if(savedInstanceState == null)
+        {
+            mScrollToNow = true;
+        }
+    }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_list_with_empty_container, container, false);
 
+        inflater.inflate(R.layout.empty_waiting_for_sync, (ViewGroup) root.findViewById(android.R.id.empty), true);
+        root.setBackgroundColor(Color.WHITE);
+        ListView listView = (ListView) root.findViewById(android.R.id.list);
+        listView.setItemsCanFocus(true);
+        listView.setCacheColorHint(Color.WHITE);
+        listView.setSelector(android.R.color.transparent);
+
+        return root;
+
+    }
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
