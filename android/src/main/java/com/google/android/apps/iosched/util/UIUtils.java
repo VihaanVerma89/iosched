@@ -18,6 +18,10 @@ import java.util.TimeZone;
  * Created by vihaan on 29/6/14.
  */
 public class UIUtils {
+
+    public static final long CONFERENCE_START_MILLIS = ParserUtils.parseTime(
+            "2013-05-15T09:00:00.000-07:00");
+
     public static final TimeZone CONFERENCE_TIME_ZONE = TimeZone.getTimeZone("America/Los_Angeles");
     private static final int TIME_FLAGS = DateUtils.FORMAT_SHOW_TIME
             | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY;

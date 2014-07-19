@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.apps.iosched.R;
 import com.google.android.apps.iosched.provider.ScheduleContract;
+import com.google.android.apps.iosched.sync.SyncHelper;
 import com.google.android.apps.iosched.util.AccountUtils;
 import com.google.android.apps.iosched.util.PrefUtils;
 import com.google.android.apps.iosched.util.WiFiUtils;
@@ -561,7 +562,7 @@ public class AccountActivity extends ActionBarActivity
     private void finishSetup() {
         ContentResolver.setIsSyncable(mChosenAccount, ScheduleContract.CONTENT_AUTHORITY, 1);
         ContentResolver.setSyncAutomatically(mChosenAccount, ScheduleContract.CONTENT_AUTHORITY, true);
-//        SyncHelper.requestManualSync(mChosenAccount);
+        SyncHelper.requestManualSync(mChosenAccount);
         PrefUtils.markSetupDone(this);
 
         if (mFinishIntent != null) {

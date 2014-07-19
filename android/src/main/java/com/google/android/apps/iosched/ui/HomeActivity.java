@@ -51,16 +51,15 @@ public class HomeActivity extends BaseActivity implements ActionBar.TabListener,
 
             final ActionBar actionBar = getSupportActionBar();
             actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-            actionBar.addTab(actionBar.newTab().setText(R.string.title_my_schedule));
-            actionBar.addTab(actionBar.newTab().setText(R.string.title_explore));
-            actionBar.addTab(actionBar.newTab().setText(R.string.title_stream));
+            actionBar.addTab(actionBar.newTab().setText(R.string.title_my_schedule).setTabListener(this));
+            actionBar.addTab(actionBar.newTab().setText(R.string.title_explore).setTabListener(this));
+            actionBar.addTab(actionBar.newTab().setText(R.string.title_stream).setTabListener(this));
 
 
         }
 
 
 
-        setContentView(R.layout.activity_home);
     }
 
 
